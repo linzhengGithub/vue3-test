@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{x}},{{y}}
     <input type="text" v-model="title" @keydown.enter="addTodo">
     <button v-if="active < all" @click="clear">清空</button>
     <ul v-if="todoList.length">
@@ -20,10 +19,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useTodos } from './useTodos'
-import { useMouse } from '../../utils/mouse'
 
 const { title, todoList, addTodo, all, active, allDone, clear } = useTodos()
-const { x, y } = useMouse()
 
 </script>
 
