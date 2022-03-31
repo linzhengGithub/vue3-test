@@ -10,6 +10,10 @@
             <h3>Rate</h3>
             <Rate :value="score" :theme="color" @update="updateRate">评分：</Rate>
         </div>
+        <div>
+            <h3>TransitionBox</h3>
+            <TransitionBox />
+        </div>
     </div>
 </template>
 
@@ -17,6 +21,7 @@
 import { ref } from 'vue'
 import TodoList from '../components/Todolist/index.vue'
 import Rate from '../components/rate/index.vue'
+import TransitionBox from '../components/TransitionBox/index.vue'
 import { useMouse } from '../utils/mouse'
 let score = ref(3)
 let color = ref('green')

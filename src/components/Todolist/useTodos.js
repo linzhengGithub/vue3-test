@@ -4,8 +4,16 @@ import { useStorage } from '../../utils/useStorage'
 export function useTodos() {
   let title = ref('')
   let todoList = useStorage('todoList', [{title: '学习Vue3', done: false}])
+  let showModel = ref(false)
 
   function addTodo() {
+    if(!title.value) {
+      showModel.value = true
+      setTimeout(() => {
+        showModel.value = false
+      },1500)
+      return
+    }
     todoList.value.push({ title: title.value, done: false })
     title.value = ''
   }
@@ -27,5 +35,5 @@ export function useTodos() {
   function clear() {
     todoList.value = todoList.value.filter(v => !v.done)
   }
-  return { title, todoList, addTodo, all, active, allDone, clear }
+  return { title, todoList, addTodo, all, active, allDone, clear, showModel }
 }
