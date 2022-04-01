@@ -7,6 +7,7 @@
         <li v-for="(todo, index) in todoList" :key="index">
           <input type="checkbox" v-model="todo.done">
           <span :class="{done: todo.done}">{{ todo.title }}</span>
+          <span class="remove-btn" @click="removeTodo($event, index)">❌</span>
         </li>
       </transition-group>
     </ul>
@@ -17,7 +18,7 @@
     </div>
     <transition name="model">
       <div v-if="showModel" class="info_wrapper">
-        请入内容!!!
+        小贼！没有输入内容！
       </div>
     </transition>
   </div>
@@ -27,7 +28,7 @@
 import { ref, computed } from 'vue'
 import { useTodos } from './useTodos'
 
-const { title, todoList, addTodo, all, active, allDone, clear, showModel } = useTodos()
+const { title, todoList, addTodo, all, active, allDone, clear, showModel, removeTodo } = useTodos()
 
 </script>
 
@@ -54,7 +55,7 @@ const { title, todoList, addTodo, all, active, allDone, clear, showModel } = use
 }
 
 .todo_list-move{
-  transition: transform .25s ease;
+  transition: transform .8s ease;
 }
 .todo_list-enter-active,
 .todo_list-leave-active{

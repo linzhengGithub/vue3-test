@@ -35,5 +35,8 @@ export function useTodos() {
   function clear() {
     todoList.value = todoList.value.filter(v => !v.done)
   }
-  return { title, todoList, addTodo, all, active, allDone, clear, showModel }
+  function removeTodo(e, i) {
+    todoList.value.splice(i, 1)
+  }
+  return { title, todoList, addTodo, all, active, allDone, clear, showModel, removeTodo }
 }
