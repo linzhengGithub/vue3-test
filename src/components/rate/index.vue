@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, defineProps, defineEmits } from 'vue'
 
 let props = defineProps({
   value: { type: Number },
@@ -21,9 +21,6 @@ let props = defineProps({
 let width = ref(props.value)
 let fontWidth = computed(() => `width: ${width.value}em`)
 
-let rate = computed(() => {
-  return "★★★★★☆☆☆☆☆".slice(5 - props.value, 10 - props.value)
-})
 
 const themeList = {
   'black': '#000', 'white': '#fff', 'red': '#f5222d', 'orange': '#fa541c', 'yellow': '#fadb14', 'green': '#73d13d', 'blue': '#40a9ff'

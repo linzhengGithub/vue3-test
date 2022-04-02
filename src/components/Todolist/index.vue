@@ -25,7 +25,6 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
 import { useTodos } from './useTodos'
 
 const { title, todoList, addTodo, all, active, allDone, clear, showModel, removeTodo } = useTodos()
