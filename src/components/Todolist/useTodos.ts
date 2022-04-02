@@ -1,9 +1,14 @@
-import { ref, computed, watchEffect } from 'vue'
+import { ref, Ref, computed, watchEffect } from 'vue'
 import { useStorage } from '../../utils/useStorage'
+
+interface Todo {
+  title: String,
+  done: Boolean
+}
 
 export function useTodos() {
   let title = ref('')
-  let todoList = useStorage('todoList', [{title: '学习Vue3', done: false}])
+  let todoList:Ref<Todo[]> = useStorage('todoList', [{title: '学习Vue3', done: false}])
   let showModel = ref(false)
 
   function addTodo() {
@@ -27,7 +32,7 @@ export function useTodos() {
       if(!todoList.value.length) return false
       return active.value === 0
     },
-    set: function (value) {
+    set: function (value: Boolean) {
       todoList.value.forEach(v => v.done = value)
     }
   })

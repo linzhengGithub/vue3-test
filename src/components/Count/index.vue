@@ -11,7 +11,6 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 // import { useStore } from '../../store/gvuex'
 let store = useStore()
-console.log(store)
 let count = computed(() => store.state.count)
 let double = computed(() => store.getters.double)
 
