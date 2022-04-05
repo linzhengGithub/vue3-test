@@ -9,7 +9,7 @@ import {
 } from './grouter/index'
 import Home from '../pages/home.vue'
 // import About from '../pages/about.vue'
-import Login from '../components/tsTest.vue'
+import testC from '../components/testC.vue'
 
 const routes = [
   {
@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: Login
+    component: testC
   }
 ]
 
