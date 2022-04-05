@@ -7,7 +7,7 @@
   </ElHeaders>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ElContainers from '../components/container/Container.vue'
 import ElHeaders from '../components/container/Hearder.vue'
 
