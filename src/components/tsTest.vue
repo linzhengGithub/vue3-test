@@ -40,7 +40,7 @@ let k1:CourseProps = 'price' // 改成price
 console.log(k,k1)
 
 
-type Courses = '玩转Vue 3'|'重学前端'
+type Courses = 'Vue3'|'QD'
 type CourseObj = {
   [k in Courses]:number // 遍历Courses类型作为key
 }
@@ -55,11 +55,11 @@ function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
 }
 
 let coursePrice:CourseObj = {
-  '玩转Vue 3': 321,
-  '重学前端': 321
+  'Vue3': 321,
+  'QD': 321
 }
 
-console.log(getProperty(coursePrice, '重学前端'))
+console.log(getProperty(coursePrice, 'QD'))
 
 
 interface Todo {
