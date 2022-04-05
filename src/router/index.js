@@ -9,7 +9,7 @@ import {
 } from './grouter/index'
 import Home from '../pages/home.vue'
 // import About from '../pages/about.vue'
-import Login from '../components/Login.vue'
+import Login from '../components/tsTest.vue'
 
 const routes = [
   {
