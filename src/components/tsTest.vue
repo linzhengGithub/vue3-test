@@ -92,14 +92,83 @@ interface Api{
   }
 }
 
+interface params{
+  name: String,
+  id: String,
+  show: Boolean
+}
+function request1(params: params){
+  return params
+}
+request1({name: '1', id: '2', show:true})
+
 function request<T extends keyof Api>(url: T, obj:Api[T]) {
   return axios.post(url,obj)
 }
 
-request('/course/buy',{id:1})
-request('/course/comment',{id:1,message:'嘎嘎好看'})
+// request('/course/buy',{id:1})
+// request('/course/comment',{id:1,message:'嘎嘎好看'})
 // request('/course/comment',{id:1}) //如果message必传 怎么类型提醒缺少参数
 // request('/course/404',{id:1}) //接口不存在 类型怎么需要报错
+
+interface IPerson {
+  name: string;
+  age: number;
+}
+
+class Person implements IPerson {
+  name: string;
+  age: number;
+}
+
+const obj: IPerson = {
+  name: 'lin',
+  age: 18
+}
+
+interface SayHello {
+  (name: string): string;
+  (age: number): number
+}
+
+const func = (name: string, age: number) => {
+  return 'hi'+ name + age
+}
+
+console.log(func('lin', 18))
+
+interface IPerson {
+  [prop: string]: string | number;
+}
+const obj1:IPerson = <IPerson>{};
+obj.name = 'guang';
+obj.age = 18;
+
+enum Transpiler {
+  Babel = 'babel',
+  Postcss = 'postcss',
+  Terser = 'terser',
+  Prettier = 'prettier',
+  'TypeScriptCompiler' = 'tsc'
+}
+const transpiler = Transpiler['TypeScriptCompiler'];
+console.log(transpiler)
+
+type tuple = [string, number?];
+interface IPerson1 {
+  readonly name: string;
+  age?: number;
+}
+const obj2:tuple = ['1', 1]
+const obj3:IPerson1 = {name: '11',age: 11}
+// obj3.name = 'xx'
+obj3.age = 22
+console.log(obj3)
+
+type First<Tuple extends unknown[]> = Tuple extends [infer T,...infer R] ? T : never;
+
+type res = First<[2,3]>;
+const obj4: res = 2
 
 
 

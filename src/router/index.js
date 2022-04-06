@@ -8,8 +8,10 @@ import {
   createWebHashHistory,
 } from './grouter/index'
 import Home from '../pages/home.vue'
-// import About from '../pages/about.vue'
+import About from '../pages/about.vue'
 import testC from '../components/testC.vue'
+import tsTest from '../components/tsTest.vue'
+
 
 const routes = [
   {
@@ -18,9 +20,14 @@ const routes = [
     component: Home
   },
   {
+    path: '/test',
+    name: 'Test',
+    component: testC
+  },
+  {
     path: '/about',
     name: 'About',
-    component: testC
+    component: tsTest
   }
 ]
 

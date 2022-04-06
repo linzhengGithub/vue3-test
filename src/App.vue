@@ -8,6 +8,9 @@
           <router-link to="/"> Home</router-link> 
         </div>
         <div>
+          <router-link to="/test">test</router-link>
+        </div>
+        <div>
           <router-link to="/about">About</router-link>
         </div>
       </el-aside>
