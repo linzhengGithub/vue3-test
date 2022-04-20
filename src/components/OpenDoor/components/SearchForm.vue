@@ -8,7 +8,16 @@
       <div style="display: flex;margin-bottom: 10px;">
         <a-form-item v-for="(item, index) in options" :key="index" :label="item.label">
           <a-input v-if="item.type === 'input'" v-model:value="form[item.target]" :placeholder="item.placeholder" allow-clear @change="inputChange(item.target)"/>
-          <a-input v-if="item.type === 'select'" v-model:value="form[item.target]" :placeholder="item.placeholder" />
+          <a-select
+            v-if="item.type === 'select'"
+            v-model:value="form[item.target]"
+            show-search
+            :placeholder="item.placeholder"
+            :style="item.selectStyle"
+            :options="item.select"
+            allowClear
+            @change="selectChange(item.target)"
+          />
         </a-form-item>
       </div>
       <div>
@@ -31,8 +40,10 @@ interface Props {
   options?: [{
     label: string,
     type: string,
-    placeholder: string,
+    placeholder?: string,
     target: string,
+    select?: any,
+    selectStyle?: string
   }]
   needSearch?: boolean
   needClear?: boolean
@@ -42,9 +53,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(),{
     form: () => {},
-    options: () => [
-      {label: '', type: '', placeholder: '', target: ''}
-    ],
+    options: () => [{label: '', type: '', target: ''}],
     needSearch: true,
     needClear: true,
     needExport: false,
@@ -54,24 +63,36 @@ const props = withDefaults(defineProps<Props>(),{
 
 const emits = defineEmits(['search', 'clear', 'exportFile', 'importFile'])
 
+// 搜索
 function search () {
   emits('search')
 }
 
+// 清空
 function clear() {
   emits('clear')
 }
 
+// 导出
 function exportFile() {
   emits('exportFile')
 }
 
+// 导入
 function importFile() {
   emits('importFile')
 }
 
+// input change
 function inputChange(value) {
-  if(props.form[value] === '') {
+  if(!props.form[value]) {
+    delete props.form[value]
+  }
+}
+
+// select change
+function selectChange(value) {
+  if(!props.form[value]) {
     delete props.form[value]
   }
 }

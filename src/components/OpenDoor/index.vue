@@ -26,6 +26,16 @@ let options = reactive([
     label: '组织',
     placeholder: '请选择管理',
     target: 'deptId',
+    select: [
+      {
+        value: 'jack',
+        label: 'Jack',
+      },{
+        value: 'dean',
+        label: 'dean',
+      }
+    ],
+    selectStyle: 'width:150px'
   }
 ])
 
