@@ -4,88 +4,76 @@
       layout="inline"
       :model="form"
     >
-    <a-form-item v-for="(item, index) in options" :key="index" :label="item.label">
-      <a-input v-if="item.type === 'input'" v-model:value="form[item.target]" :placeholder="item.placeholder" />
-      <a-input v-if="item.type === 'select'" v-model:value="form[item.target]" :placeholder="item.placeholder" />
-    </a-form-item>
-    <a-form-item>
-      <a-button v-if="needSearch" type="primary" @click="search()">搜索</a-button>
-      <a-button v-if="needClear" style="margin-left: 10px" @click="clear()">清空</a-button>
-      <a-button v-if="needExport" style="margin-left: 10px" @click="exportFile()">导出</a-button>
-    </a-form-item>
+    <div>
+      <div style="display: flex;margin-bottom: 10px;">
+        <a-form-item v-for="(item, index) in options" :key="index" :label="item.label">
+          <a-input v-if="item.type === 'input'" v-model:value="form[item.target]" :placeholder="item.placeholder" allow-clear @change="inputChange(item.target)"/>
+          <a-input v-if="item.type === 'select'" v-model:value="form[item.target]" :placeholder="item.placeholder" />
+        </a-form-item>
+      </div>
+      <div>
+        <a-form-item>
+          <a-button v-if="needSearch" type="primary" @click="search()">搜索</a-button>
+          <a-button v-if="needClear" style="margin-left: 10px" @click="clear()">清空</a-button>
+          <a-button v-if="needExport" style="margin-left: 10px" @click="exportFile()">导出</a-button>
+          <a-button v-if="needImport" style="margin-left: 10px" @click="importFile()">导导入</a-button>
+        </a-form-item>
+      </div>
+    </div>
   </a-form>
 </template>
 
-<script setup>
-import { defineProps, getCurrentInstance, onMounted, withDefaults } from 'vue'
+<script setup lang="ts">
+import { defineProps, withDefaults } from 'vue'
 
-const { proxy } = getCurrentInstance()
+interface Props {
+  form?: any
+  options?: [{
+    label: string,
+    type: string,
+    placeholder: string,
+    target: string,
+  }]
+  needSearch?: boolean
+  needClear?: boolean
+  needExport?: boolean
+  needImport?: boolean
+}
 
-const props = defineProps({
-  form: {
-    type: Object,
-    default: () => ({}),
-  },
-  options: {
-    type: Array,
-    default: () => [],
-  },
-  needSearch: {
-    type: Boolean,
-    default: true,
-  },
-  needClear: {
-    type: Boolean,
-    default: true,
-  },
-  needExport: {
-    type: Boolean,
-    default: false,
-  },
-})
-// const props = withDefaults(defineProps(),{
-//     form: {
-//       type: Object,
-//       default: () => {},
-//     },
-//     options: {
-//       type: Array,
-//       default: () => [],
-//     },
-//     needSearch: {
-//       type: Boolean,
-//       default: true,
-//     },
-//     needClear: {
-//       type: Boolean,
-//       default: true,
-//     },
-//     needExport: {
-//       type: Boolean,
-//       default: false,
-//     },
-//   }
-// )
+const props = withDefaults(defineProps<Props>(),{
+    form: () => {},
+    options: () => [
+      {label: '', type: '', placeholder: '', target: ''}
+    ],
+    needSearch: true,
+    needClear: true,
+    needExport: false,
+    needImport: false
+  }
+)
 
-const { form, options, needSearch, needClear, needExport } = props
-
-// const { form } = props
-
-onMounted(() => {
-  console.log(form)
-  console.log(options)
-})
+const emits = defineEmits(['search', 'clear', 'exportFile', 'importFile'])
 
 function search () {
-    proxy.$emit('search', form)
+  emits('search')
 }
 
 function clear() {
-    proxy.$emit('clear', {})
+  emits('clear')
 }
 
 function exportFile() {
-    proxy.$emit('exportFile')
+  emits('exportFile')
+}
+
+function importFile() {
+  emits('importFile')
+}
+
+function inputChange(value) {
+  if(props.form[value] === '') {
+    delete props.form[value]
+  }
 }
 
 

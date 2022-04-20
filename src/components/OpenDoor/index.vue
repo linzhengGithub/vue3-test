@@ -11,9 +11,9 @@
 
 <script setup>
 import SearchForm from './components/SearchForm.vue'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
-let form = reactive({})
+let form = ref({})
 
 let options = reactive([
   {
@@ -29,13 +29,18 @@ let options = reactive([
   }
 ])
 
-function search(form) {
-  console.log(form)
+defineExpose({
+  form,
+  options,
+})
+
+function search() {
+  console.log(form.value)
 }
 
-function clear() {
-  form = {}
-  console.log(form)
+function clear(value) {
+  console.log('clear')
+  form.value = {}
 }
 
 </script>
