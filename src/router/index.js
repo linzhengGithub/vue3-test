@@ -8,9 +8,9 @@ import {
   createWebHashHistory,
 } from './grouter/index'
 import Home from '../pages/home.vue'
-import About from '../pages/about.vue'
+import OpenDoor from '../components/OpenDoor/index.vue'
 import testC from '../components/testC.vue'
-import tsTest from '../components/tsTest.vue'
+// import tsTest from '../components/tsTest.vue'
 
 
 const routes = [
@@ -25,9 +25,9 @@ const routes = [
     component: testC
   },
   {
-    path: '/about',
-    name: 'About',
-    component: tsTest
+    path: '/open_door',
+    name: '开门时间录像',
+    component: OpenDoor
   }
 ]
 

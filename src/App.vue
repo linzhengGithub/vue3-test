@@ -11,7 +11,7 @@
           <router-link to="/test">test</router-link>
         </div>
         <div>
-          <router-link to="/about">About</router-link>
+          <router-link to="/open_door">开门时间录像</router-link>
         </div>
       </el-aside>
       <el-container>

@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "ant-design-vue": "^3.2.0",
     "axios": "^0.26.1",
     "element3": "0.0.40",
     "js-cookie": "^3.0.1",
