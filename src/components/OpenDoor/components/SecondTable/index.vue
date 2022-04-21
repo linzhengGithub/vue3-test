@@ -1,8 +1,8 @@
 <template>
   <a-table
+    bordered
     :dataSource="dataSource"
     :columns="columns"
-    bordered
     :action-columns="actionColumns"
   >
     <template #bodyCell="{ column, record  }">

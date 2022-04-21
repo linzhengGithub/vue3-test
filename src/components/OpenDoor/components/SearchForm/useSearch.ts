@@ -9,6 +9,8 @@ export function useSearch(props: any, emits: any) {
   function inputChange(value: any) {
     if(!props[value]) {
       delete props[value]
+    } else {
+      emits('input', props[value])
     }
   }
 
@@ -16,6 +18,8 @@ export function useSearch(props: any, emits: any) {
   function selectChange(value: any) {
     if(!props[value]) {
       delete props[value]
+    } else {
+      emits('select', props[value])
     }
   }
 
@@ -23,6 +27,8 @@ export function useSearch(props: any, emits: any) {
   function treeSelectChange(value: any) {
     if(!props[value]) {
       delete props[value]
+    } else {
+      emits('treeSelect', props[value])
     }
   }
 
@@ -39,8 +45,10 @@ export function useSearch(props: any, emits: any) {
 
   // cascader change
   function cascaderChange(value: any) {
-    if(!props.form[value]) {
-      delete props.form[value]
+    if(!props[value]) {
+      delete props[value]
+    } else {
+      emits('cascader', props[value])
     }
   }
 

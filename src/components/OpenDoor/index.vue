@@ -92,7 +92,7 @@ let options = reactive([
     type: 'input',
     label: '输入框',
     placeholder: '',
-    target: 'inputVal',
+    target: 'inputVal'
   }, {
     type: 'select',
     label: '下拉框',

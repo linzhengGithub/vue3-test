@@ -59,10 +59,10 @@
       <div>
         <a-form-item>
           <a-button v-if="needAdd" type="primary" @click="add()">新增+</a-button>
+          <a-button v-if="needExport" type="primary" style="margin-left: 10px" @click="exportFile()">导出</a-button>
+          <a-button v-if="needImport" type="primary" style="margin-left: 10px" @click="importFile()">导入</a-button>
           <a-button v-if="needSearch" type="primary" style="margin-left: 10px" @click="search()">搜索</a-button>
           <a-button v-if="needClear" style="margin-left: 10px" @click="clearSearch()">清空</a-button>
-          <a-button v-if="needExport" style="margin-left: 10px" @click="exportFile()">导出</a-button>
-          <a-button v-if="needImport" style="margin-left: 10px" @click="importFile()">导入</a-button>
         </a-form-item>
       </div>
     </div>
