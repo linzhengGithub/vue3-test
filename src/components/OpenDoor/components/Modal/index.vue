@@ -5,6 +5,8 @@
     :title="title"
     :ok-text="okText"
     :cancel-text="cancelText"
+    @ok="handleOk"
+    @cancel="handleCancel"
   >
     <a-row>
       <a-col v-for="(item,index) in contentParams" :key="index" :span="spanWidth">

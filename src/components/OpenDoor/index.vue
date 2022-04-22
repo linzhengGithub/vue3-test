@@ -44,6 +44,8 @@
       :leftStyle="{'margin-right': '10px'}"
       :rightStyle="{color: '#1890ff'}"
       @showModal="showModal()"
+      @handleOk="handleOk"
+      @handleCancel="handleCancel"
     />
   </div>
 </template>
@@ -325,6 +327,14 @@ function modal() {
 
 function showModal() {
   modalVisible.value = true
+}
+
+function handleOk(val) {
+  console.log('ok')
+}
+
+function handleCancel() {
+  console.log('cancel')
 }
 
 // delete Modal
