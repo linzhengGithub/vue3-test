@@ -11,9 +11,12 @@
   "dependencies": {
     "ant-design-vue": "^3.2.0",
     "axios": "^0.26.1",
+    "element-plus": "^2.1.10",
     "element3": "0.0.40",
     "js-cookie": "^3.0.1",
+    "use-pagination": "^1.0.6",
     "vue": "^3.2.25",
+    "vue-request": "^1.2.4",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },

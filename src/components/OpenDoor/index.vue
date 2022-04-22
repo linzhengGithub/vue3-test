@@ -1,7 +1,7 @@
 <template>
   <div>
+    <!-- 查询 -->
     <SearchForm
-      :form="form"
       :options="options"
       :date-target="['beginTime', 'endTime']"
       need-add
@@ -13,10 +13,37 @@
       @clearSearch="clear"
     />
 
+    <!-- <SecondTable
+      :table-data="tableData"
+      :columns-params="columnsParams"
+      :action-columns="actionColumns"
+    /> -->
+
+    <!-- 表格 -->
     <SecondTable
       :data-source="dataSource"
       :columns="columns"
       :action-columns="actionColumns"
+      :total="total"
+      :loading="loading"
+      :scroll="{ y: `calc(100vh - 700px)` }"
+      @pageChange="pageChange"
+    />
+
+    <!-- 对话框 -->
+    <a-button @click="modal()">modal</a-button>
+    <a-button @click="deleteC()">删除</a-button>
+    <Modal
+      :visible="modalVisible"
+      @update:visible="modalVisible = $event"
+      :title="'弹窗组件'"
+      :okText="'保存'"
+      :content-params="[{ params: 'name', label: '姓名:'}, {params: 'age', label: '年龄:' }]"
+      :content="{name: 'lin', age: 18}"
+      :span-width="12"
+      :leftStyle="{'margin-right': '10px'}"
+      :rightStyle="{color: '#1890ff'}"
+      @showModal="showModal()"
     />
   </div>
 </template>
@@ -25,6 +52,23 @@
 import SearchForm from './components/SearchForm/index.vue'
 import SecondTable from './components/SecondTable/index.vue'
 import { reactive, ref, defineExpose } from 'vue'
+import axios from 'axios'
+import Modal from './components/Modal/index.vue'
+import { useModal } from './components/Modal/useModal.js'
+
+const { deleteModal } = useModal()
+
+let loading = ref(false)
+let total = ref(0)
+let modalVisible = ref(false)
+
+const queryData = params => {
+  return axios.get('https://randomuser.me/api?noinfo', {
+    params,
+  })
+}
+
+
 
 
 // Search
@@ -91,13 +135,13 @@ let options = reactive([
   {
     type: 'input',
     label: '输入框',
-    placeholder: '',
-    target: 'inputVal'
+    target: 'inputVal',
+    placeholder: ''
   }, {
     type: 'select',
     label: '下拉框',
-    placeholder: '',
     target: 'selectVal',
+    placeholder: '',
     select: [
       {
         value: 'jack',
@@ -107,19 +151,17 @@ let options = reactive([
         label: 'dean',
       }
     ],
-    selectStyle: 'width:150px'
   }, {
     type: 'daterange',
     label: '日期选择',
-    placeholder: ['', ''],
     target: ['dateFirst', 'dateSecond'],
+    placeholder: ['', ''],
   }, {
     type: 'treeSelect',
     label: '树组织',
-    placeholder: '',
     target: 'treeVal',
+    placeholder: '',
     height: 200,
-    selectStyle: 'width:150px',
     treeNode: {
       children: 'children',
       label: 'name',
@@ -130,9 +172,8 @@ let options = reactive([
   }, {
     type: 'cascader',
     label: '级联选择',
-    placeholder: '',
     target: 'cascaderVal',
-    selectStyle: 'width:150px',
+    placeholder: '',
     cascader: cascaderData
   }
 ])
@@ -142,12 +183,11 @@ defineExpose({
   options,
 })
 
-function search() {
-  console.log(form.value)
+function search(form) {
+  console.log(form)
 }
 
 function clear(value) {
-  console.log('clear')
   form.value = {}
 }
 
@@ -158,6 +198,44 @@ function importFile() {
 function exportFile() {
   console.log('exportFile')
 }
+
+// Table ElementPlus
+
+const columnsParams = [
+  {
+    prop: 'name',
+    label: '姓名',
+  },
+  {
+    prop: 'age',
+    label: '年龄',
+  },
+  {
+    prop: 'address',
+    label: '地址',
+    type: 'defined',
+    fn: (val) => {
+      return val.date + val.name + val.age
+    }
+  },
+  {
+    type: 'action',
+    label: '操作',
+  }
+]
+
+const tableData = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    age: '28',
+    state: 'California',
+    city: 'Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+  }
+]
+
 
 // Table
 
@@ -173,58 +251,53 @@ const dataSource = ref([
       name: '胡彦祖',
       age: 42,
       address: '西湖区湖底公园1号',
+    },{
+      key: '1',
+      name: '胡彦斌',
+      age: 32,
+      address: '西湖区湖底公园1号',
     },
+    {
+      key: '2',
+      name: '胡彦祖',
+      age: 42,
+      address: '西湖区湖底公园1号',
+    }
   ]
 )
 
-const columns = ref([
-    {
-      title: '开门告警时间',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '隔离地点',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: '门磁标识',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '摄像头标识',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '关联的隔离人员',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '告警地点',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '录像开始时间',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '录像结束时间',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '操作',
-      dataIndex: 'action',
-      key: 'action',
-    },
-  ]
-)
+const columns = [
+  {
+  title: 'Name',
+  dataIndex: 'name',
+  width: '20%',
+  type: 'defined',
+  fn: (val) => {
+    return val.address + val.name + val.age
+  }
+}, {
+  title: 'age',
+  dataIndex: 'age',
+  width: '20%',
+}, {
+  title: 'address',
+  dataIndex: 'address',
+}, {
+  title: '操作',
+  dataIndex: 'action',
+  type: 'action',
+  width: 300
+  },
+];
+
+function pageChange(val) {
+  const { page, pageSize } = val
+  loading.value = true
+  queryData({page: 1, result: 20}).then((res) => {
+    loading.value = false
+  })
+  total.value = pageSize
+}
 
 const actionColumns = reactive([
   {
@@ -238,8 +311,27 @@ const actionColumns = reactive([
   {
     title: '删除',
     danger: true,
+    disableFn: (val) => { return val.age === 32 },
     fn: (val) => { console.log('删除') }
   }
 ])
+
+
+// Modal
+
+function modal() {
+  showModal()
+}
+
+function showModal() {
+  modalVisible.value = true
+}
+
+// delete Modal
+
+function deleteC() {
+  deleteModal('删除提示', () => {console.log('ok')}, () => {console.log('cancel')})
+  console.log('deleteConfirm')
+}
 
 </script>

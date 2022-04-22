@@ -59,7 +59,7 @@ export function useSearch(props: any, emits: any) {
 
   // 搜索
   function search () {
-    emits('search')
+    emits('search', props.value)
   }
 
   // 清空

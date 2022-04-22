@@ -6,11 +6,13 @@
     >
     <div>
       <div style="display: flex;margin-bottom: 10px;">
-        <a-form-item v-for="(item, index) in options" :key="index" :label="item.label">
+      <a-col v-for="(item, index) in options" :key="index" :span="item.span" >
+        <a-form-item :label="item.label">
           <a-input
             v-if="isShow('input', item.type)"
             v-model:value="form[item.target]"
             :placeholder="item.placeholder"
+            :style="item.defineStyle ?? 'width:200px'"
             allow-clear
             @change="inputChange(item.target)"
           />
@@ -18,7 +20,7 @@
             v-if="isShow('select', item.type)"
             v-model:value="form[item.target]"
             :placeholder="item.placeholder"
-            :style="item.selectStyle"
+            :style="item.defineStyle ?? 'width:200px'"
             :options="item.select"
             show-search
             allowClear
@@ -27,6 +29,7 @@
           <a-range-picker
             v-if="isShow('daterange', item.type)"
             v-model:value="times"
+            :style="item.defineStyle ?? 'width:200px'"
             format="YYYY-MM-DD"
             :placeholder="item.placeholder"
             allowClear
@@ -36,7 +39,7 @@
             v-if="isShow('treeSelect', item.type)"
             v-model:value="form[item.target]"
             show-search
-            :style="item.selectStyle"
+            :style="item.defineStyle ?? 'width:200px'"
             :dropdown-style="{ overflow: 'auto' }"
             :listHeight="item.height"
             :placeholder="item.placeholder"
@@ -50,11 +53,12 @@
             v-if="isShow('cascader', item.type)"
             v-model:value="form[item.target] as []"
             :options="item.cascader"
-            :style="item.selectStyle"
+            :style="item.defineStyle ?? 'width:200px'"
             :placeholder="item.placeholder"
             @change="cascaderChange(item.target)"
           />
         </a-form-item>
+      </a-col>
       </div>
       <div>
         <a-form-item>
@@ -74,7 +78,7 @@ import { Dayjs } from 'dayjs'
 import { defineProps, withDefaults, ref, reactive } from 'vue'
 import { useSearch } from './useSearch'
 
-
+let form = ref({})
 
 let times = ref([])
 
@@ -86,7 +90,7 @@ interface Props {
     placeholder?: string,
     target?: any,
     select?: any,
-    selectStyle?: string
+    defineStyle?: string
     height?: number
     treeNode?: () => {
       children: 'children',
@@ -96,6 +100,7 @@ interface Props {
     }
     treeData?: Array<any>
     cascader?: Array<any>
+    span?: number
   }]
   needSearch?: boolean
   needClear?: boolean
@@ -107,7 +112,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(),{
     form: () => {},
-    options: () => [{label: '', type: '', target: ''}],
+    options: () => [{label: '', type: '', target: '', defineStyle: 'width: 200px;'}],
     needSearch: true,
     needClear: true,
     needAdd: false,
@@ -130,13 +135,14 @@ const {
   clear,
   exportFile,
   importFile
-} = useSearch(props.form, emits)
+} = useSearch(form, emits)
 
 
 
 // 清空
 function clearSearch() {
   times.value = []
+  form.value = {}
   clear()
 }
 
