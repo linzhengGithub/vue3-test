@@ -4,17 +4,17 @@ import { createVNode } from 'vue';
 
 export function useModal() {
 
-  function deleteModal(title, onOk, onCancel, width = 300) {
+  function deleteModal(title: string, contentTitle: string, onOk: void, onCancel:void, width = 300) {
     Modal.confirm({
       title: title,
       icon: createVNode(ExclamationCircleOutlined),
       width: width,
-      // content: createVNode('div', { style: 'color:red;' }, 'Some descriptions'),
+      content: createVNode('div', { style: 'color:black;' }, contentTitle),
       onOk() {
-        onOk()
+        onOk
       },
       onCancel() {
-        onCancel()
+        onCancel
       },
     });
   }

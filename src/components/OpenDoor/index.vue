@@ -33,6 +33,7 @@
     <!-- 对话框 -->
     <a-button @click="modal()">modal</a-button>
     <a-button @click="deleteC()">删除</a-button>
+    <a-button @click="xx()" :up-file="upFile" :down-file="downFile">导入</a-button>
     <Modal
       :visible="modalVisible"
       @update:visible="modalVisible = $event"
@@ -47,6 +48,12 @@
       @handleOk="handleOk"
       @handleCancel="handleCancel"
     />
+    <ImportModal
+      :visible="importVisible"
+      @update:visible="importVisible = $event"
+      @upFile="upFile"
+      @downFile="downFile"
+    />
   </div>
 </template>
 
@@ -56,13 +63,15 @@ import SecondTable from './components/SecondTable/index.vue'
 import { reactive, ref, defineExpose } from 'vue'
 import axios from 'axios'
 import Modal from './components/Modal/index.vue'
-import { useModal } from './components/Modal/useModal.js'
+import { useModal } from './components/Modal/useModal'
+import ImportModal from './components/importModal/index.vue'
 
 const { deleteModal } = useModal()
 
 let loading = ref(false)
 let total = ref(0)
 let modalVisible = ref(false)
+let importVisible = ref(false)
 
 const queryData = params => {
   return axios.get('https://randomuser.me/api?noinfo', {
@@ -340,8 +349,18 @@ function handleCancel() {
 // delete Modal
 
 function deleteC() {
-  deleteModal('删除提示', () => {console.log('ok')}, () => {console.log('cancel')})
-  console.log('deleteConfirm')
+  deleteModal('删除提示', 'x' , () => { console.log('ok') }, () => { console.log('cancel') })
+}
+
+// 导入
+function xx() {
+  this.importVisible = true
+}
+function downFile() {
+  console.log('downFile')
+}
+function upFile() {
+  console.log('upFile')
 }
 
 </script>
