@@ -11,6 +11,7 @@
       @importFile="importFile"
       @search="search"
       @clearSearch="clear"
+      @input="inputChange"
     />
 
     <!-- <SecondTable
@@ -54,19 +55,29 @@
       @upFile="upFile"
       @downFile="downFile"
     />
+
+    <a-button @click="login()">登录</a-button>
+    <iframe id="message" src="http://192.168.0.205:9527/#/login"/>
   </div>
 </template>
 
 <script setup>
 import SearchForm from './components/SearchForm/index.vue'
 import SecondTable from './components/SecondTable/index.vue'
-import { reactive, ref, defineExpose } from 'vue'
+import { reactive, ref, defineExpose, onMounted } from 'vue'
 import axios from 'axios'
 import Modal from './components/Modal/index.vue'
 import { useModal } from './components/Modal/useModal'
 import ImportModal from './components/importModal/index.vue'
+import Cookies from 'js-cookie'
 
 const { deleteModal } = useModal()
+
+const TokenKey = 'Admin-Token'
+
+function getToken() {
+  return Cookies.get(TokenKey)
+}
 
 let loading = ref(false)
 let total = ref(0)
@@ -78,8 +89,41 @@ const queryData = params => {
     params,
   })
 }
+// window.onload = function () {
+//   receiveChildMessage();
+// }
 
-
+// login
+const login = () => {
+  console.log('login')
+  // const token = getToken()
+  // if(token) {
+  //   location.href = 'http://192.168.0.205:9527/#/locationControl/largeScreen'
+  //   return
+  // }
+  const message = document.getElementById('message')
+  message.contentWindow.postMessage(
+    {
+      username: 'alc',
+      password: 'yq666666',
+      // username: 'dtqszyy',
+      // password: 'dtq_szyy',
+      // redirectPath: '/locationControl/largeScreen',
+    },
+    'http://192.168.0.205:9527'
+  )
+  // message.style.height = '100vh'
+  // message.style.width = '100vw'
+}
+// function receiveChildMessage() {
+//   // 监听子级给父级发送过来的消息
+//   window.addEventListener('message', function (event) {
+//     console.log('收到子级发送的消息', event.data)
+//     if(event.data === true) {
+//       location.href = 'http://192.168.0.205:9527/#/locationControl/largeScreen'
+//     }
+//   }, false);
+// }
 
 
 // Search
